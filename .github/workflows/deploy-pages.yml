@@ -33,6 +33,14 @@ jobs:
       - name: Build static site
         run: npm run build
 
+      - name: Prepare GitHub Pages paths
+        run: |
+          REPOSITORY_NAME="${GITHUB_REPOSITORY#*/}"
+          if [ -d "dist/client/${REPOSITORY_NAME}/_next" ]; then
+            mv "dist/client/${REPOSITORY_NAME}/_next" dist/client/_next
+            rmdir "dist/client/${REPOSITORY_NAME}"
+          fi
+
       - name: Disable Jekyll processing
         run: touch dist/client/.nojekyll
 
